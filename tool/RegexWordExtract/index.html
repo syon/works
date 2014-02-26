@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>テキストから正規表現マッチ文字列を抽出</title>
+	<link rel="stylesheet" type="text/css" media="all" href="style.css">
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+<div id="container">
+
+<h1>テキストから正規表現マッチ文字列を抽出</h1>
+
+	<input type="text" id="area1" value=".ll.." />
+	<div><span id="r1"></span></div>
+	<div>
+<textarea id="area2" rows="5">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id felis quis velit tincidunt aliquet vitae quis diam. Cras accumsan velit nec elit porta tincidunt. Mauris et porttitor nunc. Vivamus tristique sodales nibh adipiscing semper. Pellentesque nec metus metus, vel scelerisque tellus. Praesent sed diam tortor. Nullam feugiat lorem quis erat aliquam eu sollicitudin augue molestie. In et magna nulla. Nunc ante mi, eleifend quis ultrices eget, ultricies ac arcu. Etiam ullamcorper, odio congue interdum fermentum, purus quam pharetra nibh, vel placerat libero urna sed elit. Donec hendrerit semper lobortis. Mauris consequat nisi bibendum velit iaculis vulputate. Sed nunc metus, adipiscing at venenatis vel, condimentum a leo. Duis sagittis risus ac velit imperdiet nec dignissim mi consequat. Vivamus placerat turpis et ligula porttitor mattis. Praesent commodo mollis neque et tristique.
+
+Nam tempus sagittis commodo. Nulla ut justo vitae magna varius rhoncus sed eget libero. Maecenas urna odio, lacinia sit amet luctus eget, porta nec mauris. Morbi auctor eleifend felis, vestibulum iaculis libero semper a. Phasellus id ante felis. In urna massa, vulputate nec mollis in, tincidunt et nisl. Donec vel ipsum nunc.
+</textarea>
+	</div>
+	<div><span id="r2"></span></div>
+
+<input id="btn" type="button" value="▼" />
+
+<div id="result">
+	<p id="msg" style="color:red;"></p>
+	<textarea id="area3" rows="20" readonly style="background-color:#fdfdfd" ></textarea>
+</div>
+
+</div><!--/#container-->
+</body>
+</html>

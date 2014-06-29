@@ -1,0 +1,33 @@
+body {
+	background-color: #f8f8f8;
+	color: #444;
+}
+#container {
+	width: 800px;
+	text-align: center;
+	margin: 2em auto;
+}
+h1 {
+	font-size: 160%;
+	padding: 0.2em;
+	text-shadow: 0 1px 1px #fff;
+}
+input, textarea {
+	font-family: monospace;
+	color: #444;
+	display: block;
+	margin: 1em 0;
+	padding: 4px;
+}
+input[type="text"] {
+	width: 100%;
+	border: 1px solid #ddd;
+}
+textarea {
+	width: 100%;
+	border: 1px solid #ddd;
+}
+#btn {
+	padding: 0.2em 3em;
+	margin: 1em auto;
+}

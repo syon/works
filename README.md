@@ -1,6 +1,17 @@
 works
 =====
 
-GitHub Pagesで公開するために`gh-pages`ブランチで管理しています。
+### [syon/works](http://syon.github.io/works/)
 
-- [syon/tools-on-web at gh-pages](https://github.com/syon/works/tree/gh-pages)
+## RUNNING
+
+develop on local
+
+```bash
+$ bundle exec middleman
+```
+
+## Heroku
+
+0. rake (Rakefile) on precompile phase
+0. foreman (Procfile) for unicorn

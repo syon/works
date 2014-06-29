@@ -1,0 +1,57 @@
+{
+ "name": "全国",
+ "children": [
+    {"name": "01", "children": [{"name": "北海道", "size": 4.28}]},
+    {"name": "02", "children": [{"name": "青森県", "size": 1.06}]},
+    {"name": "03", "children": [{"name": "岩手県", "size": 1.02}]},
+    {"name": "04", "children": [{"name": "宮城県", "size": 1.82}]},
+    {"name": "05", "children": [{"name": "秋田県", "size": 0.83}]},
+    {"name": "06", "children": [{"name": "山形県", "size": 0.90}]},
+    {"name": "07", "children": [{"name": "福島県", "size": 1.54}]},
+    {"name": "08", "children": [{"name": "茨城県", "size": 2.31}]},
+    {"name": "09", "children": [{"name": "栃木県", "size": 1.56}]},
+    {"name": "10", "children": [{"name": "群馬県", "size": 1.56}]},
+    {"name": "11", "children": [{"name": "埼玉県", "size": 5.66}]},
+    {"name": "12", "children": [{"name": "千葉県", "size": 4.86}]},
+    {"name": "13", "children": [{"name": "東京都", "size": 10.37}]},
+    {"name": "14", "children": [{"name": "神奈川県", "size": 7.11}]},
+    {"name": "15", "children": [{"name": "新潟県", "size": 1.84}]},
+    {"name": "16", "children": [{"name": "富山県", "size": 0.85}]},
+    {"name": "17", "children": [{"name": "石川県", "size": 0.91}]},
+    {"name": "18", "children": [{"name": "福井県", "size": 0.63}]},
+    {"name": "19", "children": [{"name": "山梨県", "size": 0.67}]},
+    {"name": "20", "children": [{"name": "長野県", "size": 1.67}]},
+    {"name": "21", "children": [{"name": "岐阜県", "size": 1.62}]},
+    {"name": "22", "children": [{"name": "静岡県", "size": 2.93}]},
+    {"name": "23", "children": [{"name": "愛知県", "size": 5.82}]},
+    {"name": "24", "children": [{"name": "三重県", "size": 1.44}]},
+    {"name": "25", "children": [{"name": "滋賀県", "size": 1.11}]},
+    {"name": "26", "children": [{"name": "京都府", "size": 2.06}]},
+    {"name": "27", "children": [{"name": "大阪府", "size": 6.94}]},
+    {"name": "28", "children": [{"name": "兵庫県", "size": 4.37}]},
+    {"name": "29", "children": [{"name": "奈良県", "size": 1.09}]},
+    {"name": "30", "children": [{"name": "和歌山県", "size": 0.77}]},
+    {"name": "31", "children": [{"name": "鳥取県", "size": 0.46}]},
+    {"name": "32", "children": [{"name": "島根県", "size": 0.55}]},
+    {"name": "33", "children": [{"name": "岡山県", "size": 1.52}]},
+    {"name": "34", "children": [{"name": "広島県", "size": 2.23}]},
+    {"name": "35", "children": [{"name": "山口県", "size": 1.12}]},
+    {"name": "36", "children": [{"name": "徳島県", "size": 0.61}]},
+    {"name": "37", "children": [{"name": "香川県", "size": 0.78}]},
+    {"name": "38", "children": [{"name": "愛媛県", "size": 1.11}]},
+    {"name": "39", "children": [{"name": "高知県", "size": 0.59}]},
+    {"name": "40", "children": [{"name": "福岡県", "size": 3.99}]},
+    {"name": "41", "children": [{"name": "佐賀県", "size": 0.66}]},
+    {"name": "42", "children": [{"name": "長崎県", "size": 1.10}]},
+    {"name": "43", "children": [{"name": "熊本県", "size": 1.42}]},
+    {"name": "44", "children": [{"name": "大分県", "size": 0.93}]},
+    {"name": "45", "children": [{"name": "宮崎県", "size": 0.88}]},
+    {"name": "46", "children": [{"name": "鹿児島県", "size": 1.33}]},
+    {"name": "47", "children": [{"name": "沖縄県", "size": 1.10}]}
+ ]
+}
+
+
+
+
+

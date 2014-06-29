@@ -1,0 +1,24 @@
+language: ruby
+rvm: 2.1.0
+
+env:
+  global:
+    - GIT_COMMITTER_NAME="syon"
+    - GIT_COMMITTER_EMAIL="syon.xiii@gmail.com"
+    - GIT_AUTHOR_NAME="syon"
+    - GIT_AUTHOR_EMAIL="syon.xiii@gmail.com"
+    - secure: "g2S8D4vldZPqsFLpFRDu8+3xNotChlOEjsXSQvjuFHC/N5HvKOM4weSYxcLvalfSGaspZKWSqw8ZOF9NeeZV7DdywdOlRN1+xwGfuqPO6OnFIUKjT3n9YAXF6Ar+ihDTE7PB+vYM70+MaDDBoEfX+mTz8D7c6+VS7uPSdKAOwTM="
+
+before_script:
+  - git clone --quiet https://github.com/syon/works.git build
+  - pushd build
+  - git checkout -b gh-pages
+  - popd
+
+script: bundle exec middleman build
+
+after_success:
+  - cd build
+  - git add -A
+  - git commit -m 'build from Travis CI'
+  - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GH_TOKEN ] && git push --quiet https://$GH_TOKEN@github.com/works.git gh-pages 2> /dev/null'

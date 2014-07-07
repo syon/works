@@ -3,6 +3,9 @@ layout: layout
 title: the title
 ---
 
+link href="SM2/360-player/360player.css" rel="stylesheet" type="text/css" /
+link href="SM2/mp3-player-button/css/mp3-player-button.css" rel="stylesheet" type="text/css" /
+
 css:
   *, *:after, *:before {
     box-sizing: border-box;
@@ -119,7 +122,7 @@ css:
     left: 25px;
   }
   .content .pageside .jacket {
-    background-color: rgb(0,0,255);
+    background-color: #000;
     width: 200px;
     height: 200px;
     box-shadow: 0 1px 2px 1px rgba(0,0,0,.3);
@@ -192,111 +195,155 @@ article
           | 洋酒といえば、誰でも最初に思い浮かべるのがウイスキー。いわば洋酒のシンボル的な存在なのだが、英語表記が［一般に〔米〕では Whiskey,〔英〕では Whisky.］であることはあまり知られていない。
           table#musiclist
             tr
+              th
               th #
               th Title
               th Album
               th Time
             tr
+              td
+                .ui360
+                  a href="mp3/dummy.mp3"
               td 0.
               td Overture〜序曲〜
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 冒険の始まり
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 地平線の彼方へ
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 水都リーベル
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 未開の地へ
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td ソードダンサー
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 成長の鐘
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 再会
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 王国騎士団
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 水の巫女
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td Duel of the field〜戦いの詩〜
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 貿易都市トーラス
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 一晩泊まっていくかい？
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 君の瞳と教会の花
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td クノッソス迷宮
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 白の世界
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 水の洞窟
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 雪の国ネージュ
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 水の園
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 蒼炎のレクイエム
               td Decision
               td 0:00
             tr
+              td
+                a.sm2_button href="mp3/dummy.mp3"
               td 0.
               td 風の大地
               td Decision
@@ -305,3 +352,21 @@ svg version="1.1" xmlns="http://www.w3.org/2000/svg"
   filter#blur
     feGaussianBlur stdDeviation="6" /
 
+/! special IE-only canvas fix
+/![if IE]
+  <script type="text/javascript" src="script/excanvas.js"></script><![endif]
+script src="SM2/soundmanager2-jsmin.js"
+script src="SM2/360-player/script/berniecode-animator.js"
+script src="SM2/360-player/script/360player.js"
+script src="SM2/mp3-player-button/script/mp3-player-button.js"
+
+javascript:
+  soundManager.setup({
+    url: 'SM2/',
+    flashVersion: 9, // optional: shiny features (default = 8)
+    // optional: ignore Flash where possible, use 100% HTML5 mode
+    // preferFlash: false,
+    onready: function() {
+      // Ready to use; soundManager.createSound() etc. can now be called.
+    }
+  });

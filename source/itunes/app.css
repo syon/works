@@ -91,7 +91,7 @@ svg {
 }
 .content .page {
   padding: 0px;
-  background-color: rgb(235,242,252);
+  /*background-color: rgb(235,242,252);*/
   min-height: 100%;
   border-radius: inherit;
 }

@@ -6,6 +6,8 @@ var play_state = {
         var space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         space_key.onDown.add(this.jump, this);
 
+        this.game.input.onDown.add(this.jump, this);
+
         this.pipes = game.add.group();
         this.pipes.createMultiple(20, 'pipe');
         this.timer = this.game.time.events.loop(1500, this.add_row_of_pipes, this);

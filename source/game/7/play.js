@@ -16,12 +16,9 @@ var play_state = {
         this.btm_txt = this.game.add.text(50, 320, btm_txt_bd, txt_style);
         var rgt_txt_bd = "＿＿＿＿＿＿\n\nなまえ\n\n＿＿＿＿＿＿";
         this.rgt_txt = this.game.add.text(370, 60, rgt_txt_bd, txt_style);
-
-
     },
 
     update: function() {
         console.log('Play#update');
-
     },
 };

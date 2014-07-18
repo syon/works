@@ -14,6 +14,9 @@ var menu_state = {
     start: function() {
         console.log('Menu#start');
 
+        this.tide_sound = this.game.add.audio('tide');
+        this.tide_sound.play();
+
         this.game.state.start('play');
     }
 };

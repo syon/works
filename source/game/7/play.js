@@ -3,13 +3,17 @@ var play_state = {
     create: function() {
         console.log('Play#create');
 
+        var space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        space_key.onDown.add(this.tide, this);
+        this.game.input.onDown.add(this.tide, this);
+
         this.bgm = this.game.add.audio('bgm', 1, true);
         this.bgm.play('', 0, .5, true);
 
+        this.tide_sound = this.game.add.audio('tide');
+
         this.tantei = this.game.add.sprite(0, 0, 'tantei_frame');
         this.tantei = this.game.add.sprite(32, 48, 'tantei_photo');
-
-        this.cursor = game.input.keyboard.createCursorKeys();
 
         var txt_style = { font: "16px Misaki", fill: "#ffffff" };
         var btm_txt_bd = "わたしが　ちょうど　うなかみの　がけの\n\nそばを　とおりかかったら　みちばたの\n\nくさむらに　きみが　たおれていた。";
@@ -20,5 +24,9 @@ var play_state = {
 
     update: function() {
         console.log('Play#update');
+    },
+
+    tide: function() {
+        this.tide_sound.play();
     },
 };

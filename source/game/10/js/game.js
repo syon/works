@@ -41,40 +41,33 @@ var Castlevania;
 })(Castlevania || (Castlevania = {}));
 var Castlevania;
 (function (Castlevania) {
-    var Game = (function (_super) {
-        __extends(Game, _super);
-        function Game() {
-            _super.call(this, 800, 600, Phaser.AUTO, 'content', null);
-
-            this.state.add('Boot', Castlevania.Boot, false);
-            this.state.add('Preloader', Castlevania.Preloader, false);
-            this.state.add('MainMenu', Castlevania.MainMenu, false);
-            this.state.add('Level1', Castlevania.Level1, false);
-
-            this.state.start('Boot');
-        }
-        return Game;
-    })(Phaser.Game);
-    Castlevania.Game = Game;
-})(Castlevania || (Castlevania = {}));
-var Castlevania;
-(function (Castlevania) {
-    var Level1 = (function (_super) {
-        __extends(Level1, _super);
-        function Level1() {
+    var Preloader = (function (_super) {
+        __extends(Preloader, _super);
+        function Preloader() {
             _super.apply(this, arguments);
         }
-        Level1.prototype.create = function () {
-            this.background = this.add.sprite(0, 0, 'level1');
+        Preloader.prototype.preload = function () {
+            this.preloadBar = this.add.sprite(200, 250, 'preloadBar');
+            this.load.setPreloadSprite(this.preloadBar);
 
-            this.music = this.add.audio('music', 1, false);
-            this.music.play();
-
-            this.player = new Castlevania.Player(this.game, 130, 284);
+            this.load.image('titlepage', 'assets/titlepage.jpg');
+            this.load.image('logo', 'assets/logo.png');
+            this.load.audio('music', 'assets/title.mp3', true);
+            this.load.spritesheet('simon', 'assets/simon.png', 58, 96, 5);
+            this.load.image('level1', 'assets/level1.png');
         };
-        return Level1;
+
+        Preloader.prototype.create = function () {
+            var tween = this.add.tween(this.preloadBar).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+            tween.onComplete.add(this.startMainMenu, this);
+        };
+
+        Preloader.prototype.startMainMenu = function () {
+            this.game.state.start('MainMenu', true, false);
+        };
+        return Preloader;
     })(Phaser.State);
-    Castlevania.Level1 = Level1;
+    Castlevania.Preloader = Preloader;
 })(Castlevania || (Castlevania = {}));
 var Castlevania;
 (function (Castlevania) {
@@ -150,33 +143,40 @@ var Castlevania;
 })(Castlevania || (Castlevania = {}));
 var Castlevania;
 (function (Castlevania) {
-    var Preloader = (function (_super) {
-        __extends(Preloader, _super);
-        function Preloader() {
+    var Level1 = (function (_super) {
+        __extends(Level1, _super);
+        function Level1() {
             _super.apply(this, arguments);
         }
-        Preloader.prototype.preload = function () {
-            this.preloadBar = this.add.sprite(200, 250, 'preloadBar');
-            this.load.setPreloadSprite(this.preloadBar);
+        Level1.prototype.create = function () {
+            this.background = this.add.sprite(0, 0, 'level1');
 
-            this.load.image('titlepage', 'assets/titlepage.jpg');
-            this.load.image('logo', 'assets/logo.png');
-            this.load.audio('music', 'assets/title.mp3', true);
-            this.load.spritesheet('simon', 'assets/simon.png', 58, 96, 5);
-            this.load.image('level1', 'assets/level1.png');
-        };
+            this.music = this.add.audio('music', 1, false);
+            this.music.play();
 
-        Preloader.prototype.create = function () {
-            var tween = this.add.tween(this.preloadBar).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
-            tween.onComplete.add(this.startMainMenu, this);
+            this.player = new Castlevania.Player(this.game, 130, 284);
         };
-
-        Preloader.prototype.startMainMenu = function () {
-            this.game.state.start('MainMenu', true, false);
-        };
-        return Preloader;
+        return Level1;
     })(Phaser.State);
-    Castlevania.Preloader = Preloader;
+    Castlevania.Level1 = Level1;
+})(Castlevania || (Castlevania = {}));
+var Castlevania;
+(function (Castlevania) {
+    var Game = (function (_super) {
+        __extends(Game, _super);
+        function Game() {
+            _super.call(this, 800, 600, Phaser.AUTO, 'content', null);
+
+            this.state.add('Boot', Castlevania.Boot, false);
+            this.state.add('Preloader', Castlevania.Preloader, false);
+            this.state.add('MainMenu', Castlevania.MainMenu, false);
+            this.state.add('Level1', Castlevania.Level1, false);
+
+            this.state.start('Boot');
+        }
+        return Game;
+    })(Phaser.Game);
+    Castlevania.Game = Game;
 })(Castlevania || (Castlevania = {}));
 window.onload = function () {
     var game = new Castlevania.Game();

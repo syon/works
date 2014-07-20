@@ -1,4 +1,8 @@
 ///<reference path="phaser.d.ts"/>
+///<reference path="Boot.ts"/>
+///<reference path="Preloader.ts"/>
+///<reference path="MainMenu.ts"/>
+///<reference path="Level1.ts"/>
 
 module Castlevania {
 

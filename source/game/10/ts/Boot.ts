@@ -20,19 +20,19 @@ module Castlevania {
 
             if (this.game.device.desktop) {
                 //  If you have any desktop specific settings, they can go in here
-                this.stage.scale.pageAlignHorizontally = true;
+                this.scale.pageAlignHorizontally = true;
             }
             else {
                 //  Same goes for mobile settings.
                 //  In this case we're saying "scale the game, no lower than 480x260 and no higher than 1024x768"
-                this.stage.scaleMode = Phaser.StageScaleMode.SHOW_ALL;
-                this.stage.scale.minWidth = 480;
-                this.stage.scale.minHeight = 260;
-                this.stage.scale.maxWidth = 1024;
-                this.stage.scale.maxHeight = 768;
-                this.stage.scale.forceLandscape = true;
-                this.stage.scale.pageAlignHorizontally = true;
-                this.stage.scale.setScreenSize(true);
+                this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+                this.scale.minWidth = 480;
+                this.scale.minHeight = 260;
+                this.scale.maxWidth = 1024;
+                this.scale.maxHeight = 768;
+                //this.scale.forceLandscape = true;
+                this.scale.pageAlignHorizontally = true;
+                this.scale.setScreenSize(true);
             }
 
             this.game.state.start('Preloader', true, false);

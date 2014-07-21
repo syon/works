@@ -21,16 +21,16 @@ var Castlevania;
             this.stage.disableVisibilityChange = true;
 
             if (this.game.device.desktop) {
-                this.stage.scale.pageAlignHorizontally = true;
+                this.scale.pageAlignHorizontally = true;
             } else {
-                this.stage.scaleMode = Phaser.StageScaleMode.SHOW_ALL;
-                this.stage.scale.minWidth = 480;
-                this.stage.scale.minHeight = 260;
-                this.stage.scale.maxWidth = 1024;
-                this.stage.scale.maxHeight = 768;
-                this.stage.scale.forceLandscape = true;
-                this.stage.scale.pageAlignHorizontally = true;
-                this.stage.scale.setScreenSize(true);
+                this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+                this.scale.minWidth = 480;
+                this.scale.minHeight = 260;
+                this.scale.maxWidth = 1024;
+                this.scale.maxHeight = 768;
+
+                this.scale.pageAlignHorizontally = true;
+                this.scale.setScreenSize(true);
             }
 
             this.game.state.start('Preloader', true, false);
@@ -115,6 +115,8 @@ var Castlevania;
             this.animations.add('walk', [0, 1, 2, 3, 4], 10, true);
 
             game.add.existing(this);
+
+            this.game.physics.enable(this, Phaser.Physics.ARCADE);
         }
         Player.prototype.update = function () {
             this.body.velocity.x = 0;

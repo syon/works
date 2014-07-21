@@ -13,6 +13,8 @@ module Castlevania {
             this.animations.add('walk', [0, 1, 2, 3, 4], 10, true);
 
             game.add.existing(this);
+            
+            this.game.physics.enable(this, Phaser.Physics.ARCADE);
 
         }
 

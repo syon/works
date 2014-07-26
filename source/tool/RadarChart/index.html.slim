@@ -1,0 +1,180 @@
+---
+layout: layout
+title: レーダーチャート メーカー | syon/works
+---
+
+link href="../../Flat-UI/bootstrap/css/bootstrap.css" rel="stylesheet"
+link href="../../Flat-UI/css/flat-ui.css" rel="stylesheet"
+link href="../../Flat-UI/css/docs.css" rel="stylesheet"
+link href="../../Flat-UI/images/favicon.ico" rel=("shortcut icon")
+
+css:
+  .container {
+    width: 900px;
+    margin: 40px auto;
+  }
+  #chartbox {
+    text-align: center;
+    margin: 40px auto;
+  }
+  canvas {
+    border: 1px solid #eee;
+  }
+  .message {
+    width: 500px;
+    margin: 40px auto;
+  }
+  #dataset-table {
+    margin: 20px auto;
+  }
+  #dataset-table input {
+    width: 80px;
+    margin: 0 8px 8px 0;
+  }
+  .future {
+    width: 500px;
+    margin: 40px auto;
+  }
+
+.container
+
+  h1.h4.text-center レーダーチャート メーカー
+  p.text-center Radar Chart Maker
+
+  #chartbox
+    canvas id="myChart" width="500" height="500"
+
+  form
+    table#dataset-table
+      thead
+        tr
+          th
+            input type="text" class="form-control input-sm" placeholder="Small" value="abc"
+          th
+            input type="text" class="form-control input-sm" placeholder="Small" value="abc"
+          th
+            input type="text" class="form-control input-sm" placeholder="Small" value="abc"
+          th
+            input type="text" class="form-control input-sm" placeholder="Small" value="abc"
+          th
+            input type="text" class="form-control input-sm" placeholder="Small" value="abc"
+          th
+            input type="text" class="form-control input-sm" placeholder="Small" value="abc"
+          th
+            input type="text" class="form-control input-sm" placeholder="Small" value="abc"
+      tbody
+        tr
+          td
+            input type="number" class="form-control input-sm" placeholder="Small" value=""
+          td
+            input type="number" class="form-control input-sm" placeholder="Small" value=""
+          td
+            input type="number" class="form-control input-sm" placeholder="Small" value=""
+          td
+            input type="number" class="form-control input-sm" placeholder="Small" value=""
+          td
+            input type="number" class="form-control input-sm" placeholder="Small" value=""
+          td
+            input type="number" class="form-control input-sm" placeholder="Small" value=""
+          td
+            input type="number" class="form-control input-sm" placeholder="Small" value=""
+    
+    / div id="slider" class="ui-slider"
+
+  .text-center
+    button#generate class="btn btn-embossed btn-primary" グラフを描く
+
+  .tile.message
+    span class="fui-check-inverted" style="margin-right: 6px"
+    | グラフの上で右クリックして画像を保存できます
+
+  ul.future
+    li 項目を可変に
+    li データセットを増やせるように
+    li CSV, TSV 貼り付け
+
+script src="Chart.min.js" type="text/javascript" 
+javascript:
+    //Chart.defaults.global = { scaleFontSize: 18 };
+    var data = {
+        labels: ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"],
+        datasets: [
+            {
+                label: "My First dataset",
+                fillColor: "rgba(52, 152, 219, 0.2)",
+                strokeColor: "rgba(52, 152, 219, 1)",
+                pointColor: "rgba(52, 152, 219, 1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(52, 152, 219, 1)",
+                data: [71, 35, 76, 56, 82, 62, 50]
+            }
+        ]
+    };
+    var options = { pointLabelFontSize : 14 };
+
+    (function() {
+
+      /**
+       * Initialize
+      */
+      $('#dataset-table thead th input').each(function(idx){
+          $(this).val(data.labels[idx]);
+      });
+      $('#dataset-table tbody td input').each(function(idx){
+          $(this).val(data.datasets[0].data[idx]);
+      });
+      drawChart(data, options);
+
+      /**
+       * Events
+      */
+      $(document).on('change', '#dataset-table input', function(){
+          options.animation = false;
+          updateChartData();
+          drawChart();
+      });
+
+      $('#generate').on('click', function(){
+          options.animation = true;
+          updateChartData();
+          drawChart();
+      });
+
+    })();
+
+    function updateChartData() {
+        var new_labels = [];
+        $('#dataset-table thead input').each(function(){
+            new_labels.push( $(this).val() );
+        });
+        data.labels = new_labels;
+        var new_data = [];
+        $('#dataset-table tbody input').each(function(){
+            new_data.push( Number($(this).val()) );
+        });
+        data.datasets[0].data = new_data;
+    }
+
+    var myRadarChart;
+    function drawChart() {
+        try { myRadarChart.clear(); } catch(e) {}
+        var ctx = document.getElementById("myChart").getContext("2d");
+        myRadarChart = new Chart(ctx).Radar(data, options);
+    }
+
+
+/! Load JS here for greater good =============================
+script src="../../Flat-UI/js/jquery-2.0.3.min.js"
+script src="../../Flat-UI/js/jquery-ui-1.10.3.custom.min.js"
+script src="../../Flat-UI/js/jquery.ui.touch-punch.min.js"
+script src="../../Flat-UI/js/bootstrap.min.js"
+script src="../../Flat-UI/js/bootstrap-select.js"
+script src="../../Flat-UI/js/bootstrap-switch.js"
+script src="../../Flat-UI/js/flatui-checkbox.js"
+script src="../../Flat-UI/js/flatui-radio.js"
+script src="../../Flat-UI/js/jquery.tagsinput.js"
+script src="../../Flat-UI/js/jquery.placeholder.js"
+script src="../../Flat-UI/js/typeahead.js"
+script src="../../Flat-UI/bootstrap/js/google-code-prettify/prettify.js"
+script src="../../Flat-UI/js/application.js"

@@ -160,6 +160,8 @@ javascript:
     function drawChart() {
         try { myRadarChart.clear(); } catch(e) {}
         var ctx = document.getElementById("myChart").getContext("2d");
+        ctx.canvas.width=500;
+        ctx.canvas.height=500;
         myRadarChart = new Chart(ctx).Radar(data, options);
     }
 

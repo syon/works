@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.0'
+ruby '2.1.2'
 
 gem 'middleman', '~> 3.3'
 gem 'unicorn',   '~> 4.8'

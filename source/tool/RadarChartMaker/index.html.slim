@@ -156,13 +156,16 @@ javascript:
         data.datasets[0].data = new_data;
     }
 
-    var myRadarChart;
+    var myChart;
     function drawChart() {
-        try { myRadarChart.clear(); } catch(e) {}
-        var ctx = document.getElementById("myChart").getContext("2d");
-        ctx.canvas.width=500;
-        ctx.canvas.height=500;
-        myRadarChart = new Chart(ctx).Radar(data, options);
+        try {
+          myChart.Radar(data, options);
+        }
+        catch(e) {
+          ctx = document.getElementById("myChart").getContext("2d");
+          myChart = new Chart(ctx);
+          myChart.Radar(data, options);
+        }
     }
 
 

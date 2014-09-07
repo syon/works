@@ -12,7 +12,7 @@ var play_state = {
         this.pipes.createMultiple(20, 'pipe');
         this.timer = this.game.time.events.loop(1500, this.add_row_of_pipes, this);
 
-        this.bird = this.game.add.sprite(100, 245, 'bird');
+        this.bird = this.game.add.sprite(60, 245, 'bird');
         this.bird.body.gravity.y = 1000;
         this.bird.anchor.setTo(-0.2, 0.5);
 
@@ -81,7 +81,7 @@ var play_state = {
 
         for (var i = 0; i < 8; i++)
             if (i != hole && i != hole +1)
-                this.add_one_pipe(400, i*60+10);
+                this.add_one_pipe(320, i*60+10);
 
         // Not 'this.score', but just 'score'
         score += 1;

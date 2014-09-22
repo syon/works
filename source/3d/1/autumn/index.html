@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Autumn</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="../css/style_no_stats.css">
+		<style type="text/css">
+			body {
+				background:#000000;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="infobutton">
+			<a href="javascript:toggleInfo()"><img src="../general/i.png" border="0"></a>
+		</div>
+		<div id="info">
+				<B>Autumn - WebGL(html5)</B>
+				<BR>Move your mouse
+				<P>Something inspired by the autumn.<BR><BR>
+				All those damn leaves... Soon I will be raking them again.<BR>
+				And when I get to hell, I will be raking them forever...</P>
+				Done using <a href="https://github.com/mrdoob/three.js" target="_blank">three.js</a>.
+				<P><B>Note.</B> You need a modern browser that supports WebGL for this to run the way it is intended.<BR>
+				For example. <a href="http://www.google.com/landing/chrome/beta/" target="_blank">Google Chrome 9+</a> or <a href="http://www.mozilla.com/firefox/beta/" target="_blank">Firefox 4+</a>.<BR><BR>(If you are already using one of those browsers and it's still not running, it's possible that you<BR>have old blacklisted GPU drivers. Try updating the drivers for your graphic card.<BR>Or try to set a '--ignore-gpu-blacklist' switch for the browser.)</P>
+				<font color="#777777">(C) OutsideOfSociety 2014.
+		</div>
+
+		<script src="../build_r58/three.min.js"></script>
+		<script src="tween.min.js"></script>
+
+		<script type="text/javascript" src="../general/info.js"></script>
+
+		<script src="js/shaders/CopyShader.js"></script>
+		<script src="js/shaders/ConvolutionShader.js"></script>
+		<script src="js/shaders/RadialBlurShader.js"></script>
+		<script src="js/shaders/LensflareShader.js"></script>
+
+		<script src="js/postprocessing/EffectComposer.js"></script>
+		<script src="js/postprocessing/MaskPass.js"></script>
+		<script src="js/postprocessing/RenderPass.js"></script>
+		<script src="js/postprocessing/ShaderPass.js"></script>
+		<script src="js/postprocessing/BloomPass.js"></script>
+
+		<script id="vs" type="x-shader/x-vertex">
+
+			uniform float globalTime;
+
+			attribute vec3 direction;
+			attribute float size;
+			attribute float seed;
+			attribute float time;
+			attribute vec3 customColor;
+			
+			varying vec2 vUv;
+			varying vec3 vColor;
+			varying vec3 vNormal;
+			varying float vSeed;
+			varying float vDarken;
+
+			void main() {
+
+				vColor = customColor;
+				vSeed = seed;
+
+				vec3 animated = position;
+
+				// time
+				float localTime = time + globalTime*(0.5+seed);
+				float modTime = mod( localTime, 1.0 );
+				float accTime = modTime * modTime;
+
+				animated.z = accTime*11000.0;
+
+				float rotation = localTime*40.0;
+				if (seed < 0.5) {
+					rotation *= -1.0;
+				}
+
+				float s = sin(rotation);
+				float c = cos(rotation);
+
+				mat3 rotX = mat3(
+			        vec3( 1.0, 0.0,0.0),
+			        vec3( 0.0, c,  s),
+			        vec3( 0.0,-s,  c)
+			    );
+
+				mat3 rotZ = mat3(
+			        vec3( c,  s,  0.0),
+			        vec3(-s,  c,  0.0),
+			        vec3( 0.0,0.0,1.0)
+			    );
+
+
+				vec3 dd = direction;
+				dd.y *= sin(rotation);
+
+				vec3 rotatedDirection = dd*(rotZ*rotX);
+
+				vNormal = normal*(rotZ*rotX);
+
+                animated += rotatedDirection*size;
+
+                vDarken = 1.0 - length(vec2(animated.x, animated.y))/7000.0;
+
+				vUv = uv;
+
+				vec4 mvPosition = modelViewMatrix * vec4( animated, 1.0 );
+
+				gl_Position = projectionMatrix * mvPosition;
+
+			}
+
+		</script>
+
+		<script id="fs" type="x-shader/x-fragment">
+
+			uniform sampler2D map;
+			uniform sampler2D map2;
+
+			uniform vec3 fogColor;
+			uniform float fogNear;
+			uniform float fogFar;
+
+			varying vec2 vUv;
+			varying vec3 vColor;
+			varying vec3 vNormal;
+
+			uniform float globalTime;
+			varying float vSeed;
+			uniform float black;
+			varying float vDarken;
+			uniform vec2 lightPos;
+
+
+			void main() {
+
+				float depth = gl_FragCoord.z / gl_FragCoord.w;
+				float fogFactor = smoothstep( fogNear, fogFar, depth );
+
+				vec4 tex = vec4(0.0);
+
+				if (vSeed > 0.5) {
+					tex = texture2D( map2, vUv );
+				} else {
+					tex = texture2D( map, vUv );
+				}
+
+				float tres = 0.01;
+
+				if (black > 0.5) {
+					tres = 0.8;
+				}
+
+				if (tex.w <= tres) {
+					discard;
+				}
+
+				// light
+				vec3 light = vec3(lightPos.x,lightPos.y, -0.8);
+				float d = pow(max(0.01,dot(vNormal.xyz, light))*1.5, 1.0);
+				float d2 = pow(max(0.05,dot(-vNormal.xyz, light))*1.5, 1.0);
+
+				float t = globalTime;
+
+				gl_FragColor = vec4( mix( (tex.xyz*vColor*(d))*black*vDarken, fogColor, fogFactor ), tex.w);
+
+				if (black > 0.5) {
+					gl_FragColor.w *= pow( gl_FragCoord.z, 20.0 );
+				}
+
+			}
+
+		</script>
+
+
+		<script id="vs_tree" type="x-shader/x-vertex">
+
+			uniform float globalTime;
+			
+			varying vec2 vUv;
+			varying vec3 vNormal;
+			varying float vDarken;
+
+			void main() {
+
+				vUv = uv;
+				vNormal = normal;
+
+				vDarken = 1.25-max( 0.25, (position.z+30.0)/10.0 );
+
+				vec3 animated = position;
+
+				animated.x += sin(position.y*0.04+globalTime)*1.0;
+				animated.y += cos(position.x*0.03+globalTime)*1.0;
+				animated.z += cos(position.z*0.02+globalTime)*1.0;
+
+				vec4 mvPosition = modelViewMatrix * vec4( animated, 1.0 );
+
+				gl_Position = projectionMatrix * mvPosition;
+
+			}
+
+		</script>
+
+		<script id="fs_tree" type="x-shader/x-fragment">
+
+			uniform sampler2D map;
+			uniform vec3 color;
+			uniform vec2 lightPos;
+
+			varying vec2 vUv;
+			varying vec3 vNormal;
+			varying float vDarken;
+
+			uniform sampler2D shadow;
+			uniform float globalTime;
+
+
+			void main() {
+
+				vec4 tex = texture2D( map, vUv );
+
+				if (tex.w <= 0.99) {
+					discard;
+				}
+
+				vec2 sUv = vec2(vUv.x-sin(vUv.x*0.3+globalTime)*0.15, vUv.y-cos(vUv.y*0.3+globalTime)*0.15);
+
+				vec4 shd = texture2D( shadow, sUv*1.5 );
+				float shadowAdd = 1.0;
+
+				if (shd.w > 0.5) {
+					shadowAdd = shd.z*vDarken;
+				}
+
+				// light
+				vec3 light = vec3(lightPos.x,lightPos.y, -0.8);
+				float d = pow(max(0.35,dot(vNormal.xyz, light))*1.3, 1.3);
+
+				gl_FragColor = vec4( tex.xyz*color*d*shadowAdd*(vDarken), tex.w);
+
+			}
+
+		</script>
+
+
+		<script type="x-shader/x-vertex" id="p_vs">
+
+			attribute float size;
+			attribute float time;
+			uniform float globalTime;
+
+			varying float vAlpha;
+			varying float vDarken;
+
+			void main() {
+
+				vec3 pos = position; 
+
+				// time
+				float localTime = time + globalTime;
+				float modTime = mod( localTime, 1.0 );
+				float accTime = modTime * modTime;
+
+				pos.x += cos(modTime*32.0 + (position.z))*100.0; 
+				pos.y += sin(modTime*24.0 + (position.x))*100.0; 
+				pos.z += sin(modTime*24.0 + (position.y))*100.0;
+
+				vec3 animated = vec3( pos.x, pos.y, pos.z );
+
+				vAlpha = sin((globalTime + animated.y*0.025)*0.5);
+
+				vDarken = 1.0 - length(vec2(animated.x, animated.y))/6000.0;
+
+				vec4 mvPosition = modelViewMatrix * vec4( animated, 1.0 );
+
+				gl_PointSize = min(10.0, (size * ( 250.0 / length( mvPosition.xyz ) ) ) );
+
+				gl_Position = projectionMatrix * mvPosition;
+
+			}
+
+		</script>
+
+		<script type="x-shader/x-fragment" id="p_fs">
+
+			uniform vec3 color;
+			uniform sampler2D texture;
+
+			varying float vAlpha;
+			varying float vDarken;
+
+			void main() {
+
+				vec4 outColor = texture2D( texture, gl_PointCoord );
+
+				gl_FragColor = vec4( outColor.xyz*color*vAlpha, (outColor.w*vAlpha)*0.5 );
+				//gl_FragColor *= vDarken;
+			}
+
+		</script>
+
+
+		<script>
+
+			var container;
+
+			var camera, scene, renderer, composer;
+
+			var has_gl = false;
+
+			var delta;
+			var time;
+			var oldTime;
+
+			var effectRadialBlur;
+			var effectBloom;
+			var depthTarget;
+			var depthScale = 0.5;
+			var light;
+
+			var projector = new THREE.Projector();
+			var cameraTarget = new THREE.Vector3();
+			var pointLight;
+
+			var uniforms2;
+
+			var lensflare;
+
+			var loader;
+			var overlay;
+
+			var trees = [];
+
+			var mouse = new THREE.Vector2(-0.5,0.5);
+
+			var touchDevice = ( ('ontouchstart' in document) || (navigator.userAgent.match(/ipad|iphone|android/i) != null) );
+			var scaleRatio = 1;
+			if (touchDevice) scaleRatio = 2;
+
+			var bgSprite;
+			var particles;
+
+			var music;
+
+			if (Audio != undefined) {
+				var a = new Audio();
+				var ext = "ogg";
+				if(a.canPlayType("audio/mp3")) ext = "mp3";
+				music = new Audio("autumn_loop."+ext);
+				music.volume = 0.0;
+				music.load();
+
+				music.addEventListener("loadeddata", function() {
+
+					checkLoading();
+
+				}, false);
+
+				if (typeof music.loop == "boolean") {
+					music.loop = true;
+				} else {
+					music.addEventListener("ended", function() {
+						this.currentTime = 0;
+						this.play();
+					}, false);
+				}
+
+			} else {
+				startTime = Date.now();
+				checkLoading();
+			}
+
+			init();
+
+
+			var loadedItems = 0;
+
+			function checkLoading() {
+
+				++loadedItems;
+				
+				if (loadedItems >= 8) {
+					animate();
+
+					if (music) {
+						music.play();
+
+				        var volumeTween = new TWEEN.Tween( music )
+				            .to( { volume: 0.5 }, 4000 )
+				            .easing( TWEEN.Easing.Cubic.In );
+		            	volumeTween.start();
+					}
+
+					var alphaTween = new TWEEN.Tween(bgSprite.material)
+						.to({opacity: 0}, 4000)
+						.easing(TWEEN.Easing.Cubic.In)
+						.onComplete(function () {
+							scene.remove( bgSprite );
+						});
+					alphaTween.start();
+
+
+					var lensTween = new TWEEN.Tween(lensflare.uniforms[ "alpha" ])
+						.to({value: 1}, 4000)
+						.easing(TWEEN.Easing.Cubic.In);
+					lensTween.start();
+
+				}
+
+
+			}
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				scene = new THREE.Scene();
+				
+				camera = new THREE.PerspectiveCamera( 85, window.innerWidth / window.innerHeight, 1, 50000 );
+				camera.position.y = 750;
+				camera.position.z = 2000;
+				camera.position.x = -750;
+				camera.lookAt(scene.position);
+				scene.add( camera );
+
+				// black cover
+				var bgImage = new THREE.Texture( generateTexture() );
+				bgImage.needsUpdate = true;
+
+			    var spriteMaterial = new THREE.SpriteMaterial( { map: bgImage, useScreenCoordinates: true } );
+				bgSprite = new THREE.Sprite( spriteMaterial );
+				bgSprite.position.set( window.innerWidth >> 1, window.innerHeight >> 1, 0 );
+				bgSprite.scale.set(5000,5000);
+				scene.add( bgSprite );
+
+				// tree
+				loader = new THREE.JSONLoader();
+				loader.load( "Tree_04.js", treeLoaded );
+
+
+				var fog = new THREE.Fog( 0x1b0c02, 5000, 12000 );
+
+				// sun
+				var m = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, fog: false, opacity: 0.25, blending: THREE.AdditiveBlending, map: THREE.ImageUtils.loadTexture( "lensflare0.png", undefined, checkLoading ) } );
+				light = new THREE.Mesh( new THREE.PlaneGeometry(10,10), m );
+
+				var s = 5000;
+				light.scale.set(s,s,s);
+				light.position.set(0, 0, -10000);
+
+				scene.add(light);
+
+
+				// leaves
+				var geometry = new THREE.Geometry();
+
+				var attributes = {
+
+					direction: 	 { type: "v3", value: new THREE.Vector3( 0, 0, 0 ) },
+					seed:		 { type: 'f', value: [] },
+					time:		 { type: 'f', value: [] },
+					size:		 { type: 'f', value: [] },
+					customColor: { type: 'c', value: new THREE.Color( 0xffffff ) },
+								
+				};
+
+
+				uniforms2 = {
+
+					map: { type: "t", value: THREE.ImageUtils.loadTexture( "leaf.png", undefined, checkLoading ) },
+					map2: { type: "t", value: THREE.ImageUtils.loadTexture( "leaf2.png", undefined, checkLoading ) },
+					fogColor : { type: "c", value: fog.color },
+					fogNear : { type: "f", value: fog.near },
+					fogFar : { type: "f", value: fog.far },
+					globalTime : { type: "f", value: 0.0 },
+					bass : { type: "f", value: 0.0 },
+					black : { type: "f", value: 1.0 },
+					lightPos : { type: "v2", value: new THREE.Vector2() },
+
+				};
+
+
+				material = new THREE.ShaderMaterial( {
+
+					uniforms: uniforms2,
+					attributes: attributes,
+					vertexShader: document.getElementById( 'vs' ).textContent,
+					fragmentShader: document.getElementById( 'fs' ).textContent,
+					transparent: true,
+					side: THREE.DoubleSide,
+
+				} );
+
+				var geo = new THREE.PlaneGeometry( 2, 2 );
+				THREE.GeometryUtils.triangulateQuads(geo);
+				geo.applyMatrix( new THREE.Matrix4().makeRotationFromEuler( new THREE.Vector3( -Math.PI/2, 0, 0 ) ) );
+
+				geo.vertices[0].y = 0.5;
+				geo.vertices[3].y = 0.5;
+				geo.computeVertexNormals();
+				geo.computeFaceNormals();
+				
+				var plane = new THREE.Mesh( geo );
+
+				for ( i = 0; i < 30000; i++ ) {
+
+					plane.position.x = Math.random() * 15000 - 7500;
+					plane.position.y = Math.random() * 15000 - 7500;
+					plane.position.z = 0;
+
+					THREE.GeometryUtils.merge(geometry, plane);
+
+				}
+
+
+				var vertices = geometry.vertices;
+				var values_direction = attributes.direction.value;
+				var values_size = attributes.size.value;
+				var values_seed = attributes.seed.value;
+				var values_time = attributes.time.value;
+				var values_colors = attributes.customColor.value;
+
+				var testGeometry = new THREE.PlaneGeometry(2,2);
+				THREE.GeometryUtils.triangulateQuads(testGeometry);
+				testGeometry.applyMatrix( new THREE.Matrix4().makeRotationFromEuler( new THREE.Vector3( -Math.PI/2, 0, 0 ) ) );
+				testGeometry.applyMatrix( new THREE.Matrix4().setPosition( new THREE.Vector3( 1.0, 0, 1.0 ) ) );
+				testGeometry.vertices[0].y = 0.5;
+				testGeometry.vertices[3].y = 0.5;
+
+				for( var v = 0; v < vertices.length; v+=4 ) {
+
+					
+					values_direction[v] = testGeometry.vertices[0];
+					values_direction[v+1] = testGeometry.vertices[1];
+					values_direction[v+2] = testGeometry.vertices[2];
+					values_direction[v+3] = testGeometry.vertices[3];
+
+					var size = 40 + Math.random() * 100;
+					values_size[v] = size;
+					values_size[v+1] = size;
+					values_size[v+2] = size;
+					values_size[v+3] = size;
+
+					var seed = Math.random();
+					values_seed[v] = seed;
+					values_seed[v+1] = seed;
+					values_seed[v+2] = seed;
+					values_seed[v+3] = seed;
+
+					var time = Math.random();
+					values_time[v] = time;
+					values_time[v+1] = time;
+					values_time[v+2] = time;
+					values_time[v+3] = time;
+
+
+					var color = new THREE.Color( 0xffffff );
+					color.setHSL(0.05+Math.random()*0.1,1.0,0.2+Math.random()*0.4);
+
+					values_colors[v] = color;
+					values_colors[v+1] = color;
+					values_colors[v+2] = color;
+					values_colors[v+3] = color;
+
+				}
+
+
+				objects = new THREE.Mesh( geometry, material );
+				objects.position.z = - 7500;
+				scene.add( objects );
+
+
+
+
+				// dirt
+				var overlayMaterial = new THREE.SpriteMaterial( { map: THREE.ImageUtils.loadTexture( "lensdirt.jpg", undefined, checkLoading ), useScreenCoordinates: true, fog: false, opacity: 0.25 } );
+			    overlay = new THREE.Sprite( overlayMaterial );
+			    overlay.scale.set( window.innerWidth/scaleRatio, window.innerHeight/scaleRatio , 1 );
+			    overlay.position.set((window.innerWidth/scaleRatio)/2, (window.innerHeight/scaleRatio)/2 , 0);
+			    camera.add(overlay);
+
+
+				try {
+					// renderer
+					renderer = new THREE.WebGLRenderer({antialias: false});
+					renderer.setSize( window.innerWidth/scaleRatio, window.innerHeight/scaleRatio );
+					renderer.setClearColor(0x151001);
+
+					renderer.sortObjects = false;
+
+					var parameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat };
+					depthTarget = new THREE.WebGLRenderTarget( (window.innerWidth/scaleRatio)*depthScale, (window.innerHeight/scaleRatio)*depthScale, parameters );
+
+					// postprocessing
+					renderer.autoClear = false;
+					var renderModel = new THREE.RenderPass( scene, camera );
+					effectRadialBlur = new THREE.ShaderPass( THREE.RadialBlurShader );
+					effectRadialBlur.uniforms[ "tDepth" ].value = depthTarget;
+					
+					lensflare = new THREE.ShaderPass( THREE.LensflareShader );
+					lensflare.uniforms[ "pos" ].value = new THREE.Vector2(0.0, 0.5);
+					lensflare.uniforms[ "res" ].value = new THREE.Vector2(window.innerWidth/scaleRatio, window.innerHeight/scaleRatio);
+					lensflare.uniforms[ "alpha" ].value = 0; 
+
+					effectBloom = new THREE.BloomPass( 0.7 );
+
+					var effectCopy = new THREE.ShaderPass( THREE.CopyShader );
+					effectCopy.renderToScreen = true;
+
+					composer = new THREE.EffectComposer( renderer );
+					composer.setSize(window.innerWidth/scaleRatio, window.innerHeight/scaleRatio);
+
+					composer.addPass( renderModel );
+					composer.addPass( effectRadialBlur );
+					composer.addPass( lensflare );
+					composer.addPass( effectBloom );
+					
+					composer.addPass( effectCopy );
+
+					container.appendChild( renderer.domElement );
+					has_gl = true;
+
+					document.addEventListener( 'mousemove', onMouseMove, false );
+					document.addEventListener( 'touchmove', onTouchMove, false );
+					window.addEventListener( 'resize', onWindowResize, false );
+
+					if (scaleRatio > 1) {
+						renderer.domElement.style.webkitTransform = "scale3d("+scaleRatio+", "+scaleRatio+", 1)";
+						renderer.domElement.style.webkitTransformOrigin = "0 0 0";
+						renderer.domElement.style.transform = "scale3d("+scaleRatio+", "+scaleRatio+", 1)";
+						renderer.domElement.style.transformOrigin = "0 0 0";				
+
+						renderer.domElement.style.position = "absolute";
+						renderer.domElement.style.top = "0px";
+						renderer.domElement.style.left = "0px";
+
+					}
+
+					container.style.cursor = "url(cursor.png),pointer";
+
+				}
+				catch (e) {
+					// need webgl
+					document.getElementById('info').innerHTML = "<P><BR><B>Note.</B> You need a modern browser that supports WebGL for this to run the way it is intended.<BR>For example. <a href='http://www.google.com/landing/chrome/beta/' target='_blank'>Google Chrome 9+</a> or <a href='http://www.mozilla.com/firefox/beta/' target='_blank'>Firefox 4+</a>.<BR><BR>If you are already using one of those browsers and still see this message, it's possible that you<BR>have old blacklisted GPU drivers. Try updating the drivers for your graphic card.<BR>Or try to set a '--ignore-gpu-blacklist' switch for the browser.</P><CENTER><BR><img src='../general/WebGL_logo.png' border='0'></CENTER>";
+					document.getElementById('info').style.display = "block";
+					return;
+				}
+
+			}
+
+			function generateTexture() {
+
+				var canvas = document.createElement( 'canvas' );
+				canvas.width = 32;
+				canvas.height = 32;
+
+				var context = canvas.getContext( '2d' );
+
+				context.fillStyle="#000000";
+				context.fillRect(0,0,32,32);
+
+				return canvas;
+
+			}
+
+			function onWindowResize ( event ) {
+
+				var w = window.innerWidth;
+				var h = window.innerHeight;
+
+				renderer.setSize( w/scaleRatio, h/scaleRatio );
+
+				camera.aspect = w / h;
+				camera.updateProjectionMatrix();
+
+				var parameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat };
+				depthTarget = new THREE.WebGLRenderTarget( (w/scaleRatio)*depthScale, (w/scaleRatio)*depthScale, parameters );
+
+				effectRadialBlur.uniforms[ "tDepth" ].value = depthTarget;
+				lensflare.uniforms[ "res" ].value = new THREE.Vector2(w/scaleRatio, h/scaleRatio);
+
+				composer.reset();
+				composer.setSize(w/scaleRatio, h/scaleRatio);				
+
+				if (overlay) {
+					overlay.scale.set( w/scaleRatio, h/scaleRatio, 1 );
+			   		overlay.position.set((w/scaleRatio)/2, (h/scaleRatio)/2 , 0);
+				}
+
+			}
+
+			function getTreeMaterial (texture, shadow) {
+				
+				var attributes = {
+								
+				};
+
+				var uniforms = {
+
+					color : { type: "c", value: new THREE.Color() },
+					map: { type: "t", value: texture },
+					shadow: { type: "t", value: shadow },
+					globalTime : { type: "f", value: 0.0 },
+					lightPos : { type: "v2", value: new THREE.Vector2() },
+						
+				};
+
+				var material = new THREE.ShaderMaterial( {
+
+					uniforms: uniforms,
+					attributes: attributes,
+					vertexShader: document.getElementById( 'vs_tree' ).textContent,
+					fragmentShader: document.getElementById( 'fs_tree' ).textContent,
+					transparent: true,
+					side: THREE.DoubleSide,
+
+				} );
+
+				return material;
+
+			}
+
+			function treeLoaded( geometry, mm ) {
+
+				geometry.applyMatrix( new THREE.Matrix4().makeRotationFromEuler( new THREE.Vector3( -Math.PI/2, 0, 0 ) ) );
+
+				//geometry.computeVertexNormals();
+				//geometry.computeFaceNormals();
+
+				var center = new THREE.Vector3(0,28,0);
+				
+				for (var i = 0; i < geometry.faces.length; i++) {
+					var face = geometry.faces[i];
+
+					var a = geometry.vertices[face.a];
+					var b = geometry.vertices[face.b];
+					var c = geometry.vertices[face.c];
+
+					face.vertexNormals[0] = new THREE.Vector3().copy(a).sub(center).normalize();
+					face.vertexNormals[1] = new THREE.Vector3().copy(b).sub(center).normalize();
+					face.vertexNormals[2] = new THREE.Vector3().copy(c).sub(center).normalize();
+						
+				}
+
+				var texture = THREE.ImageUtils.loadTexture( "test4.png", undefined, checkLoading );
+				var shadow = THREE.ImageUtils.loadTexture( "test6.png", undefined, checkLoading );
+
+				shadow.wrapS = THREE.MirroredRepeatWrapping;
+				shadow.wrapT = THREE.MirroredRepeatWrapping;
+
+				var num = 16;
+
+				// trees
+				for (var i = 0; i < num; i++) {
+
+					var material0 = getTreeMaterial(texture, shadow);
+					var material1 = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.DoubleSide } );
+
+					var c = new THREE.Color().setHSL(0.025+Math.random()*0.15,0.75,0.45);
+					material0.uniforms.color.value = c;
+
+					if (i==0) {
+						material0.side = THREE.FrontSide;
+					}
+
+					var mf = new THREE.MeshFaceMaterial( [material0, material1] );
+
+
+					var a = (i/num)*Math.PI*2;
+					var radius = 4000+Math.random()*4000;
+
+					var tree = new THREE.Mesh( geometry, mf );
+					var s = 150+Math.random()*50;
+					tree.scale.set(s,150,s);
+					tree.position.set( Math.sin(a)*radius, Math.cos(a)*radius, 2500 )
+					
+					tree.rotation.z = Math.random()*(Math.PI*2);
+
+					tree.seed = Math.random()*num;
+					tree.light = true;
+
+					if (i == 0) {
+						tree.position.set( -9000, 0, -5500 );
+						tree.rotation.x = 2;
+						tree.scale.set(200,200,200);
+						tree.rotation.y = -Math.PI/2;
+					}
+
+
+
+					scene.add(tree);
+					trees.push(tree);
+
+
+				}
+
+				// some "walls"
+				var cyl = new THREE.CylinderGeometry(15000, 15000, 18000, 100, 1, true);
+
+				for (var i = 0; i < cyl.vertices.length; i++) {
+					if (cyl.vertices[i].y > 0) {
+						cyl.vertices[i].y += Math.random()*4000 - 2000;
+					}
+				}
+
+				var ma = new THREE.MeshBasicMaterial( {color: 0x000000, side: THREE.BackSide} );
+				var mesh = new THREE.Mesh(cyl, ma);
+				mesh.rotation.x = -Math.PI/2;
+				mesh.position.z = 3000;
+				scene.add(mesh);
+
+
+
+				// Particles
+				var map = THREE.ImageUtils.loadTexture( "bob.png", undefined, checkLoading );
+
+				var attributes = {
+
+					size:		 { type: 'f', value: [] },
+					time:		 { type: 'f', value: [] },
+
+				};
+
+				uniforms = {
+
+					color:      { type: "c", value: new THREE.Color( 0xffffff ) },
+					texture:    { type: "t", value: map },
+					globalTime:	{ type: "f", value: 0.0 },
+					bass:		{ type: "f", value: 0.0 },
+
+				};
+				uniforms.color.value.setHSL(0.15,1.0,0.75);
+
+				var shaderMaterial = new THREE.ShaderMaterial( {
+
+					uniforms: 		uniforms,
+					attributes:     attributes,
+					vertexShader:   document.getElementById( 'p_vs' ).textContent,
+					fragmentShader: document.getElementById( 'p_fs' ).textContent,
+
+					transparent:	true,
+					
+				});
+
+				var geometry = new THREE.Geometry();
+
+				for ( i = 0; i < 1000; i++ ) {
+					var vertex = new THREE.Vector3(Math.random() * 4000 - 2000, Math.random() * 4000 - 2000, Math.random() * -3000 - 250);
+
+					geometry.vertices.push(vertex);
+				}
+
+				particles = new THREE.ParticleSystem( geometry, shaderMaterial );
+
+				var vertices = geometry.vertices;
+				var values_size = attributes.size.value;
+				var values_time = attributes.time.value;
+
+				for( var v = 0; v < vertices.length; v++ ) {
+					
+					values_size[ v ] = (40+Math.random()*40)/scaleRatio;
+
+				}
+
+				particles.position.z = camera.position.z;
+
+				scene.add( particles );
+
+			}
+
+			function getScreenPosition (object) {
+				var vector = projector.projectVector(new THREE.Vector3().getPositionFromMatrix(object.matrixWorld), camera);
+				return vector;
+			}
+
+
+			function onMouseMove ( event ) {
+
+				event.preventDefault();
+
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+			}
+
+			function onTouchMove (event) { 
+
+				event.preventDefault();
+
+				for (var i = 0; i < event.changedTouches.length; i++) {
+
+					var tx = ( event.changedTouches[i].clientX / window.innerWidth ) * 2 - 1;
+					var ty = - ( event.changedTouches[i].clientY / window.innerHeight ) * 2 + 1;
+
+					mouse.x = tx;
+					mouse.y = ty;
+
+				}
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				render();
+
+			}
+
+			function render() {
+
+				time = Date.now();
+				delta = time - oldTime;
+				oldTime = time;
+
+				if (isNaN(delta) || delta > 1000 || delta == 0 ) {
+					delta = 1000/60;
+				}
+
+				var optimalDivider = delta/16;
+				var smoothing = Math.max(5, (30/optimalDivider) );
+
+				camera.position.x += ((mouse.x*1500 + Math.sin(time*0.0008)*100) - camera.position.x)/smoothing;
+				camera.position.y += ((mouse.y*1500 + Math.cos(time*0.0006)*100) - camera.position.y)/smoothing;
+
+
+				camera.lookAt(scene.position);
+
+				//camera.up.x += (mouse.x*0.25 - camera.up.x)/30;
+				//camera.up.z += (mouse.y*0.25 - camera.up.z)/30;
+
+
+				uniforms2.globalTime.value += delta * 0.00005;
+
+
+				TWEEN.update();
+
+				var pos = getScreenPosition(light);
+
+				effectRadialBlur.uniforms[ 'center' ].value.x = (pos.x+0.5)*0.8 + 0.1;
+				effectRadialBlur.uniforms[ 'center' ].value.y = (pos.y+0.5)*0.8 + 0.1;
+
+				lensflare.uniforms[ "pos" ].value.x = (pos.x);//*1.25;
+				lensflare.uniforms[ "pos" ].value.y = (pos.y*-1);//*1.25;
+
+				uniforms2.lightPos.value.x = (pos.x+0.5);
+				uniforms2.lightPos.value.y = (pos.y+0.5);
+
+
+				light.lookAt(camera.position);
+
+				var lng = pos.x * pos.x + pos.y * pos.y;
+				overlay.material.opacity = Math.max( 0.05, (0.2-lng) );
+
+				particles.material.uniforms.globalTime.value += delta * 0.00005;
+
+				if (has_gl) {
+
+					renderer.clear();
+					for (var i = 0; i < trees.length; i++) {
+						if (trees[i].light) {
+							trees[i].material.materials[0].uniforms.lightPos.value.x = (pos.x+0.5);
+							trees[i].material.materials[0].uniforms.lightPos.value.y = (pos.y+0.5);
+							trees[i].material.materials[0].uniforms.globalTime.value += delta * 0.001;
+						}
+
+					}
+					uniforms2.black.value = 0; 
+					light.visible = true;
+					light.material.opacity = 0.8;
+					renderer.render( scene, camera, depthTarget, true );
+		
+					uniforms2.black.value = 1; 
+					light.material.opacity = 0.5;
+
+					composer.render( 0.01 );
+
+				}
+
+			}
+
+		</script>
+	</body>
+</html>

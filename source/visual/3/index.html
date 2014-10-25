@@ -16,10 +16,10 @@
     overflow-x: auto;
   }
 </style>
-<title>D3.jsと国土交通省のオープンデータで東京都の地図を描く</title>
+<title>D3.jsと国土交通省のオープンデータで東京都の地図を描く | syon/works</title>
 <body>
   <div class="container">
-    <h1>D3.jsと国土交通省のオープンデータで東京都の地図を描く</h1>
+    <h1 style="text-align:center;">D3.jsと国土交通省のオープンデータで東京都の地図を描く</h1>
     <div id="map"></div>
     <p>
       Geograpic data is from <a href="http://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03.html">国土交通省</a>.
@@ -29,7 +29,7 @@
 <pre>
     var g,
         width = 900,
-        height = 650;
+        height = 500;
 
     // svg要素を作成し、データの受け皿となるg要素を追加している
     map = d3.select('#map').append('svg')
@@ -44,9 +44,9 @@
 
             // 投影を処理する関数を用意する。データからSVGのPATHに変換するため。
             projection = d3.geo.mercator()
-                  .scale(40000)
+                  .scale(45000)
                   .center(d3.geo.centroid(json))  // データから中心点を計算
-                  .translate([width / 2 + 100, height / 2 - 120]);
+                  .translate([600, 920]);
 
             // pathジェネレータ関数
             path = d3.geo.path().projection(projection);
@@ -77,7 +77,7 @@
 (function() {
     var g,
         width = 900,
-        height = 650;
+        height = 500;
 
     // svg要素を作成し、データの受け皿となるg要素を追加している
     map = d3.select('#map').append('svg')
@@ -92,9 +92,9 @@
 
             // 投影を処理する関数を用意する。データからSVGのPATHに変換するため。
             projection = d3.geo.mercator()
-                  .scale(40000)
+                  .scale(45000)
                   .center(d3.geo.centroid(json))  // データから中心点を計算
-                  .translate([width / 2 + 100, height / 2 - 120]);
+                  .translate([600, 920]);
 
             // pathジェネレータ関数
             path = d3.geo.path().projection(projection);

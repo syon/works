@@ -16,14 +16,14 @@ var play_state = {
         this.tantei = this.game.add.sprite(32, 48, 'tantei_photo');
 
         var txt_style = { font: "16px Misaki", fill: "#ffffff" };
-        var btm_txt_bd = "わたしが　ちょうど　うなかみの　がけの\n\nそばを　とおりかかったら　みちばたの\n\nくさむらに　きみが　たおれていた。";
-        this.btm_txt = this.game.add.text(50, 320, btm_txt_bd, txt_style);
+        var btm_txt_bd = "\nわたしが　ちょうど　うなかみの　がけの\n\nそばを　とおりかかったら　みちばたの\n\nくさむらに　きみが　たおれていた。";
+        this.btm_txt = this.game.add.text(50, 310, btm_txt_bd, txt_style);
         var rgt_txt_bd = "＿＿＿＿＿＿\n\nなまえ\n\n＿＿＿＿＿＿";
         this.rgt_txt = this.game.add.text(370, 60, rgt_txt_bd, txt_style);
     },
 
     update: function() {
-        console.log('Play#update');
+        //console.log('Play#update');
     },
 
     tide: function() {

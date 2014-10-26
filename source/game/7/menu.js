@@ -4,6 +4,7 @@ var menu_state = {
 
         var space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         space_key.onDown.add(this.start, this);
+        this.game.input.onDown.add(this.start, this);
 
         var style = { font: "18px Misaki", fill: "#ffffff" };
         var x = game.world.width/2, y = game.world.height/2;

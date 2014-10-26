@@ -5,8 +5,8 @@ var play_state = {
 
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.stage.backgroundColor = '#000000';
-        this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'background');
-        this.bg.fixedToCamera = true;
+        //this.bg = this.game.add.tileSprite(0, 0, 800, 600, 'background');
+        //this.bg.fixedToCamera = true;
 
         this.map = this.game.add.tilemap('World1');
         this.map.addTilesetImage('SuperMarioBros');
@@ -34,7 +34,7 @@ var play_state = {
         this.game.camera.follow(this.player);
 
         this.cursors = game.input.keyboard.createCursorKeys();
-        this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.jumpButton = this.game.input.pointer1;
 
         //this.bgm = this.game.add.audio('bgm', 1, true);
         //this.bgm.play('', 0, .5, true);
@@ -43,11 +43,11 @@ var play_state = {
     },
 
     update: function() {
-        console.log('Play#update');
+        //console.log('Play#update');
 
         this.game.physics.arcade.collide(this.player, this.layer);
 
-        this.player.body.velocity.x = 0;
+        this.player.body.velocity.x = 100; // Auto Mobe //0;
 
         if (this.cursors.left.isDown)
         {

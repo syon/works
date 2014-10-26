@@ -40,7 +40,7 @@ var play_state = {
     },
 
     update: function() {
-        console.log('Play#update');
+        //console.log('Play#update');
 
         this.game.physics.arcade.collide(this.player, this.layer);
 
@@ -66,6 +66,23 @@ var play_state = {
                 this.facing = 'right';
             }
         }
+        // Auto Move start ----
+        else if (this.game.input.onDown)
+        {
+            var rnd = Math.floor(Math.random()*10/4);
+            if (rnd == 0) {
+                this.player.body.velocity.x = 150;
+                if (this.facing != 'right')
+                {
+                    this.player.animations.play('right');
+                    this.facing = 'right';
+                }
+            }
+            else if (this.player.body.onFloor() && this.game.time.now > this.jumpTimer) {
+                this.player.body.velocity.y = -350;
+            }
+        }
+        // Auto Move end ----
         else
         {
             if (this.facing != 'idle')

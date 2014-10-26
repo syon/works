@@ -4,6 +4,7 @@ var menu_state = {
 
         var space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         space_key.onDown.add(this.start, this);
+        this.game.input.onDown.add(this.start, this);
 
         var style = { font: "18px Misaki", fill: "#ffffff" };
         var x = game.world.width/2, y = game.world.height/2;
@@ -14,8 +15,8 @@ var menu_state = {
     start: function() {
         console.log('Menu#start');
 
-        this.tide_sound = this.game.add.audio('tide');
-        this.tide_sound.play();
+        //this.tide_sound = this.game.add.audio('tide');
+        //this.tide_sound.play();
 
         this.game.state.start('play');
     }

@@ -14,9 +14,6 @@ end
 # silence i18n warning
 ::I18n.config.enforce_available_locales = false
 
-# LiveReload
-activate :livereload
-
 # Google Analytics
 activate :google_analytics do |ga|
   ga.tracking_id = 'UA-37634759-2'

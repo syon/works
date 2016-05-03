@@ -1,9 +1,4 @@
----
-layout: game
-title: 'Sandbox #1 | syon/works'
----
-
-css:
+style(type="text/css").
   body {
     margin: 0;
   }
@@ -23,25 +18,25 @@ css:
     /* border: 1px solid green; */
   }
 
-script src="http://d3js.org/d3.v3.min.js" charset="utf-8"
-script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/1.4.14/jquery.scrollTo.min.js"
-script src="ion.sound.min.js"
+script(src="http://d3js.org/d3.v3.min.js" charset="utf-8")
+script(src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/1.4.14/jquery.scrollTo.min.js")
+script(src="ion.sound.min.js")
 
 #content
 
   #btn
-    button onclick="start()" Start
+    button(onclick="start()") Start
 
-  svg width="600px" height="1500px"
-    line x1="0" y1="100" x2="600" y2="100" stroke="orange" stroke-width="5" /
-    text id="barpos" x="0" y="100"
-    g id="g1"
-    g id="g2"
+  svg(width="600px" height="1500px")
+    line(x1="0" y1="100" x2="600" y2="100" stroke="orange" stroke-width="5")
+    text(id="barpos" x="0" y="100")
+    g(id="g1")
+    g(id="g2")
 
-  hr id="startline"
+  hr(id="startline")
 
 
-javascript:
+script(type='text/javascript').
   var dataset = [
     {"cx":400, "cy":150, "r":20, "fill":"blue"},
     {"cx":200, "cy":250, "r":20, "fill":"blue"},

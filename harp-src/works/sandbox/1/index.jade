@@ -1,0 +1,119 @@
+style(type="text/css").
+  body {
+    margin: 0;
+  }
+  svg {
+    border: 1px solid #f6f;
+    margin: 2em auto 0;
+    display: block;
+  }
+  #btn button {
+    display: block;
+    font-size: 18px;
+    padding: 4px 8px;
+    margin: 2em auto 0;
+  }
+  #startline {
+    margin: 200px 0 400px;
+    /* border: 1px solid green; */
+  }
+
+script(src="http://d3js.org/d3.v3.min.js" charset="utf-8")
+script(src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/1.4.14/jquery.scrollTo.min.js")
+script(src="ion.sound.min.js")
+
+#content
+
+  #btn
+    button(onclick="start()") Start
+
+  svg(width="600px" height="1500px")
+    line(x1="0" y1="100" x2="600" y2="100" stroke="orange" stroke-width="5")
+    text(id="barpos" x="0" y="100")
+    g(id="g1")
+    g(id="g2")
+
+  hr(id="startline")
+
+
+script(type='text/javascript').
+  var dataset = [
+    {"cx":400, "cy":150, "r":20, "fill":"blue"},
+    {"cx":200, "cy":250, "r":20, "fill":"blue"},
+    {"cx":300, "cy":350, "r":20, "fill":"blue"},
+    {"cx":400, "cy":550, "r":20, "fill":"blue"},
+    {"cx":300, "cy":550, "r":20, "fill":"blue"},
+    {"cx":400, "cy":850, "r":20, "fill":"blue"},
+    {"cx":400, "cy":900, "r":20, "fill":"blue"},
+    {"cx":300, "cy":1000, "r":20, "fill":"blue"},
+    {"cx":400, "cy":1000, "r":20, "fill":"blue"},
+    {"cx":400, "cy":1250, "r":20, "fill":"blue"}
+  ];
+  init();
+
+  function init() {
+    var g1 = d3.select("svg #g1");
+    g1.selectAll("circle").data(dataset).enter().append("circle")
+        .attr("cx", function(d){return d.cx;})
+        .attr("cy", function(d){return d.cy;})
+        .attr("r", function(d){return d.r;})
+        .attr("fill", function(d){return d.fill;})
+        .on("click", function(d,i){ console.log( d ) })
+        ;
+    var g2 = d3.select("svg #g2");
+    g2.selectAll("text").data(dataset).enter().append("text")
+        .text(function(d){ return d.cy; })
+        .attr("x", function(d){ return d.cx; })
+        .attr("y", function(d){ return d.cy; })
+        .attr("fill", "orange")
+        .attr("font-size","20px")
+        ;
+  }
+
+  function update( arg ) {
+    var pos = arg + 100;
+    var svg = d3.select("svg");
+    svg.selectAll("line")
+        .attr("y1", pos)
+        .attr("y2", pos)
+        ;
+    svg.selectAll("#barpos")
+        .attr("y", pos)
+        .text(pos)
+        ;
+    svg.selectAll("#g2 text").data(dataset)
+        .text( function(d){ return d.cy } )
+        ;
+    svg.selectAll("#g1 circle").data(dataset)
+        .attr("fill", function(d){
+          if (d.cy + 20 > pos && pos > d.cy - 20) {
+            ring();
+            return "red";
+          } else {
+            return d.fill;
+          }
+        })
+        ;
+  }
+
+  window.onscroll = function() {
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      //console.log(scrollTop);
+      update(scrollTop);
+  }
+
+  function start() {
+    $(window).scrollTo('hr', 1000, {easing: 'linear'});
+    $(window).scrollTo('hr', 500, {easing: 'linear'});
+    $(window).scrollTo(0, 5000, {easing: 'linear'});
+  }
+
+  $(document).ready(function(){
+    ion.sound({
+      sounds: [{name: "metal_plate"}], path: "sounds/", preload: true, volume: 1.0
+    });
+  });
+
+  function ring() {
+    ion.sound.play("metal_plate", {volume: 0.7});
+  }

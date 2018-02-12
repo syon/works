@@ -3,10 +3,14 @@
     header.site-header
       .container
         app-logo
-    h1.title works
-    h2.subtitle Nuxt.js project
+
+    section
+      .container
+        h2.title skills
+
     section.cards
       .container
+        h2.title works
         .card-list
           card-item(v-for="p in products" :arg="p" :key="p.title")
 </template>

@@ -14,6 +14,10 @@ module.exports = {
     ]
   },
   /*
+  ** Global CSS
+  */
+  css: ['~/assets/css/app.stylus'],
+  /*
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },

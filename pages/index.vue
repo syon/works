@@ -1,6 +1,8 @@
 <template lang="pug">
   main
-    app-logo
+    header.site-header
+      .container
+        app-logo
     h1.title works
     h2.subtitle Nuxt.js project
     section.cards
@@ -32,23 +34,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@media (min-width: 768px)
-  .container
-    width 750px
-
-@media (min-width: 992px)
-  .container
-    width 970px
-
-@media (min-width: 1220px)
-  .container
-    width 1170px
-
-.container
-  margin-right auto
-  margin-left auto
-  padding-left 15px
-  padding-right 15px
+.site-header
+  margin 4rem 0
 
 .cards
   background-color #f6f9fc

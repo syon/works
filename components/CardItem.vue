@@ -1,10 +1,16 @@
 <template lang="pug">
   .card 
-    img(src="/card-01.png")
+    img(:src="`/card-${arg.id}.png`")
     .card-content 
-      .card-title Chase
-      .card-desc Web client for Pocket
+      .card-title {{ arg.title }}
+      .card-desc {{ arg.desc }}
 </template>
+
+<script>
+export default {
+  props: ['arg'],
+}
+</script>
 
 <style lang="stylus" scoped>
 .card

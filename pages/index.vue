@@ -6,15 +6,7 @@
     section.cards
       .container
         .card-list
-          card-item
-          card-item
-          card-item
-          card-item
-          card-item
-          card-item
-          card-item
-          card-item
-          card-item
+          card-item(v-for="p in products" :arg="p" :key="p.title")
 </template>
 
 <script>
@@ -25,7 +17,17 @@ export default {
   components: {
     AppLogo,
     CardItem,
-  }
+  },
+  asyncData (context) {
+    return {
+      products: [
+        { id: '01', title: 'Chase', desc: 'Web client for Pocket' },
+        { id: '01', title: 'World2', desc: 'Description 02' },
+        { id: '01', title: 'World3', desc: 'Description 03' },
+        { id: '01', title: 'World4', desc: 'Description 04' },
+      ],
+    }
+  },
 }
 </script>
 

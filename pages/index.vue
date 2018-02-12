@@ -1,64 +1,57 @@
-<template>
-  <section class="container">
-    <div>
-      <app-logo/>
-      <h1 class="title">
-        works
-      </h1>
-      <h2 class="subtitle">
-        Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
-      </div>
-    </div>
-  </section>
+<template lang="pug">
+  main
+    app-logo
+    h1.title works
+    h2.subtitle Nuxt.js project
+    section.cards
+      .container
+        .card-list
+          card-item
+          card-item
+          card-item
+          card-item
+          card-item
+          card-item
+          card-item
+          card-item
+          card-item
 </template>
 
 <script>
 import AppLogo from '~/components/AppLogo.vue'
+import CardItem from '~/components/CardItem.vue'
 
 export default {
   components: {
-    AppLogo
+    AppLogo,
+    CardItem,
   }
 }
 </script>
 
-<style>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+<style lang="stylus" scoped>
+@media (min-width: 768px)
+  .container
+    width 750px
 
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+@media (min-width: 992px)
+  .container
+    width 970px
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
+@media (min-width: 1220px)
+  .container
+    width 1170px
 
-.links {
-  padding-top: 15px;
-}
+.container
+  margin-right auto
+  margin-left auto
+  padding-left 15px
+  padding-right 15px
+
+.cards
+  background-color #f6f9fc
+
+.card-list
+  display flex
+  flex-wrap wrap
 </style>

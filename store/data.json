@@ -49,6 +49,10 @@
       "desc": "ピアノ即興演奏のPodcast配信サイト。",
       "link": "http://improvis.oto-no-sono.com/"
     },
-    { "id": "01", "title": "feed-filter", "desc": "Description feed-filter" }
+    {
+      "id": "10",
+      "title": "RSSフィードフィルタ",
+      "desc": "キーワードやドメインを指定してRSSフィードをフィルタリングするWebサービス。"
+    }
   ]
 }

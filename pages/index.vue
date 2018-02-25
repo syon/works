@@ -13,7 +13,7 @@
 <script>
 import AppLogo from '~/components/AppLogo.vue'
 import CardItem from '~/components/CardItem.vue'
-import Data from '~/store/Data.json'
+import Data from '~/store/data.json'
 
 export default {
   components: {

@@ -25,8 +25,7 @@
       "desc": "NPMパッケージを活用したオンラインツールのかけらを集めたもの。",
       "link": "https://syon.github.io/pieces/"
     },
-    { "id": "01", "title": "gaiyas", "desc": "外野たち ― はてなブックマークのコメントを表示" },
-    { "id": "01", "title": "nocorica", "desc": "Fragments of Geek Life", "url": "http://blog.nocorica.jp/" },
+    { "id": "06", "title": "nocorica", "desc": "“残り香”。日々の技術的な学習結果を記すブログ。", "url": "http://blog.nocorica.jp/" },
     { "id": "01", "title": "IRKit GUI", "desc": "Description IRKit GUI" },
     { "id": "01", "title": "音の園", "desc": "音の園 desc" },
     { "id": "01", "title": "音の園 IMPROVIS", "desc": "Description 音の園 IMPROVIS" },

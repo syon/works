@@ -1,7 +1,12 @@
 {
   "products": [
     { "id": "01", "title": "Chase", "desc": "Web client for Pocket" },
-    { "id": "01", "title": "ATOM 日本語化プラグイン", "desc": "Atom のメニューバーとコンテキストメニュー、設定画面を日本語化します。" },
+    {
+      "id": "02",
+      "title": "ATOM 日本語化プラグイン",
+      "desc": "Atom のメニューバーとコンテキストメニュー、設定画面を日本語化します。",
+      "link": "http://syonx.hatenablog.com/entry/2015/04/06/233111"
+    },
     { "id": "01", "title": "Refills", "desc": "Description 03" },
     { "id": "01", "title": "wiki", "desc": "Description 04" },
     { "id": "01", "title": "pieces", "desc": "Description 04" },

@@ -1,7 +1,7 @@
 <template lang="pug">
-  .card 
-    img(:src="`/card-${arg.id}.png`")
-    .card-content 
+  a.card(:href="arg.link" target="_blank")
+    img(:src="`/images/card-${arg.id}.png`")
+    .card-content
       .card-title {{ arg.title }}
       .card-desc {{ arg.desc }}
 </template>

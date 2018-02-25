@@ -37,7 +37,12 @@
       "desc": "赤外線リモコンデバイス「IRKit」をブラウザ上から操作するためのWebアプリ。",
       "link": "https://github.com/syon/irkit-gui"
     },
-    { "id": "01", "title": "音の園", "desc": "音の園 desc" },
+    {
+      "id": "08",
+      "title": "音の園",
+      "desc": "多彩なコンセプトのフリー音楽素材BGM配信サイト。",
+      "link": "http://oto-no-sono.com/"
+    },
     { "id": "01", "title": "音の園 IMPROVIS", "desc": "Description 音の園 IMPROVIS" },
     { "id": "01", "title": "kukai", "desc": "kukai desc" },
     { "id": "01", "title": "feed-filter", "desc": "Description feed-filter" },

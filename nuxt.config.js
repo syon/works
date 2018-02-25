@@ -1,4 +1,7 @@
 module.exports = {
+  router: {
+    base: '/works/'
+  },
   /*
   ** Headers of the page
   */

@@ -2,7 +2,7 @@
 .author
   .author-container
     .author-avatar
-      img.avatar(src="/syon.jpg")
+      img.avatar(src="syon.jpg")
     .author-title
       .namerepo
         .author-name syon

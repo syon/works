@@ -1,6 +1,11 @@
 {
   "products": [
-    { "id": "01", "title": "Chase", "desc": "Web client for Pocket" },
+    {
+      "id": "01",
+      "title": "Chase",
+      "desc": "「あとで読む」サービス『Pocket』の積ん読消化を加速するWebアプリ。",
+      "link": "https://syon.github.io/chase/"
+    },
     {
       "id": "02",
       "title": "ATOM 日本語化プラグイン",

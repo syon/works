@@ -19,7 +19,7 @@ export default {
   width 350px
   height 308px
   /* width calc(1110px / 3 - 2rem) */
-  margin 0.5rem
+  margin 0.8rem
   box-shadow 0 3px 8px rgba(0,0,0,.1)
 
   img

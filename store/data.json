@@ -25,8 +25,18 @@
       "desc": "NPMパッケージを活用したオンラインツールのかけらを集めたもの。",
       "link": "https://syon.github.io/pieces/"
     },
-    { "id": "06", "title": "nocorica", "desc": "“残り香”。日々の技術的な学習結果を記すブログ。", "url": "http://blog.nocorica.jp/" },
-    { "id": "01", "title": "IRKit GUI", "desc": "Description IRKit GUI" },
+    {
+      "id": "06",
+      "title": "nocorica",
+      "desc": "“残り香”。日々の技術的な学習結果を記すブログ。",
+      "link": "http://blog.nocorica.jp/"
+    },
+    {
+      "id": "07",
+      "title": "IRKit GUI",
+      "desc": "赤外線リモコンデバイス「IRKit」をブラウザ上から操作するためのWebアプリ。",
+      "link": "https://github.com/syon/irkit-gui"
+    },
     { "id": "01", "title": "音の園", "desc": "音の園 desc" },
     { "id": "01", "title": "音の園 IMPROVIS", "desc": "Description 音の園 IMPROVIS" },
     { "id": "01", "title": "kukai", "desc": "kukai desc" },

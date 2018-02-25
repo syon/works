@@ -13,7 +13,12 @@
       "desc": "時の流れとともに更新されることを想定された記事（リフィル）たち。",
       "link": "https://syon.github.io/refills/"
     },
-    { "id": "01", "title": "wiki", "desc": "Description 04" },
+    {
+      "id": "04",
+      "title": "wiki",
+      "desc": "技術的な事柄を調査・習得したものを、あとで見返すために蓄積した情報格納庫。",
+      "link": "https://syon.github.io/refills/"
+    },
     { "id": "01", "title": "pieces", "desc": "Description 04" },
     { "id": "01", "title": "gaiyas", "desc": "外野たち ― はてなブックマークのコメントを表示" },
     { "id": "01", "title": "nocorica", "desc": "Fragments of Geek Life", "url": "http://blog.nocorica.jp/" },

@@ -19,7 +19,12 @@
       "desc": "技術的な事柄を調査・習得したものを、あとで見返すために蓄積した情報格納庫。",
       "link": "https://syon.github.io/refills/"
     },
-    { "id": "01", "title": "pieces", "desc": "Description 04" },
+    {
+      "id": "05",
+      "title": "Pieces",
+      "desc": "NPMパッケージを活用したオンラインツールのかけらを集めたもの。",
+      "link": "https://syon.github.io/pieces/"
+    },
     { "id": "01", "title": "gaiyas", "desc": "外野たち ― はてなブックマークのコメントを表示" },
     { "id": "01", "title": "nocorica", "desc": "Fragments of Geek Life", "url": "http://blog.nocorica.jp/" },
     { "id": "01", "title": "IRKit GUI", "desc": "Description IRKit GUI" },

@@ -1,0 +1,63 @@
+{
+  "products": [
+    {
+      "id": "01",
+      "title": "Chase",
+      "desc": "「あとで読む」サービス『Pocket』の積ん読消化を加速するWebアプリ。",
+      "link": "https://syon.github.io/chase/"
+    },
+    {
+      "id": "02",
+      "title": "ATOM 日本語化プラグイン",
+      "desc": "Atom のメニューバーとコンテキストメニュー、設定画面を日本語化します。",
+      "link": "http://syonx.hatenablog.com/entry/2015/04/06/233111"
+    },
+    {
+      "id": "03",
+      "title": "Refills",
+      "desc": "時の流れとともに更新されることを想定された記事（リフィル）たち。",
+      "link": "https://syon.github.io/refills/"
+    },
+    {
+      "id": "04",
+      "title": "wiki",
+      "desc": "技術的な事柄を調査・習得したものを、あとで見返すために蓄積した情報格納庫。",
+      "link": "https://syon.github.io/wiki/"
+    },
+    {
+      "id": "05",
+      "title": "Pieces",
+      "desc": "NPMパッケージを活用したオンラインツールのかけらを集めたもの。",
+      "link": "https://syon.github.io/pieces/"
+    },
+    {
+      "id": "06",
+      "title": "nocorica",
+      "desc": "“残り香”。日々の技術的な学習結果を記すブログ。",
+      "link": "http://blog.nocorica.jp/"
+    },
+    {
+      "id": "07",
+      "title": "IRKit GUI",
+      "desc": "赤外線リモコンデバイス「IRKit」をブラウザ上から操作するためのWebアプリ。",
+      "link": "https://github.com/syon/irkit-gui"
+    },
+    {
+      "id": "08",
+      "title": "音の園",
+      "desc": "多彩なコンセプトのフリー音楽素材BGM配信サイト。",
+      "link": "http://oto-no-sono.com/"
+    },
+    {
+      "id": "09",
+      "title": "音の園 IMPROVIS",
+      "desc": "ピアノ即興演奏のPodcast配信サイト。",
+      "link": "http://improvis.oto-no-sono.com/"
+    },
+    {
+      "id": "10",
+      "title": "RSSフィードフィルタ",
+      "desc": "キーワードやドメインを指定してRSSフィードをフィルタリングするWebサービス。"
+    }
+  ]
+}

@@ -1,14 +1,18 @@
-<template lang="pug">
-  a.card(:href="arg.link" target="_blank")
-    img(:src="`images/card-${arg.id}.png`")
-    .card-content
-      .card-title {{ arg.title }}
-      .card-desc {{ arg.desc }}
+<template>
+  <a class="card" :href="arg.link" target="_blank"
+    ><img :src="`images/card-${arg.id}.png`" />
+    <div class="card-content">
+      <div class="card-title">{{ arg.title }}</div>
+      <div class="card-desc">{{ arg.desc }}</div>
+    </div>
+  </a>
 </template>
 
 <script>
 export default {
-  props: ['arg'],
+  props: {
+    arg: { type: Object, required: true },
+  },
 }
 </script>
 

@@ -1,13 +1,18 @@
-<template lang="pug">
-  main
-    header.site-header
-      .container
-        app-logo
-
-    section.cards
-      .container
-        .card-list
-          card-item(v-for="p in products" :arg="p" :key="p.title")
+<template>
+  <main>
+    <header class="site-header">
+      <div class="container">
+        <app-logo></app-logo>
+      </div>
+    </header>
+    <section class="cards">
+      <div class="container">
+        <div class="card-list">
+          <card-item v-for="p in products" :key="p.title" :arg="p"></card-item>
+        </div>
+      </div>
+    </section>
+  </main>
 </template>
 
 <script>
@@ -20,7 +25,7 @@ export default {
     AppLogo,
     CardItem,
   },
-  asyncData (context) {
+  asyncData(context) {
     return {
       products: Data.products,
     }

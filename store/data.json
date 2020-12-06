@@ -1,6 +1,24 @@
 {
   "products": [
     {
+      "id": "13",
+      "title": "Ogg Loop Editor",
+      "desc": "波形を見ながら再生し、ループ情報を編集するNuxt.js製Webアプリ。",
+      "link": "https://note.com/wathew/n/n5484e289b306"
+    },
+    {
+      "id": "11",
+      "title": "Mini4",
+      "desc": "ゲーム『ミニ四駆 超速グランプリ』セッティングシミュレーターWebアプリ。Nuxt.js製。",
+      "link": "https://mini4.now.sh/"
+    },
+    {
+      "id": "12",
+      "title": "gyut",
+      "desc": "画像ファイルをリサイズ、圧縮（最適化）するElectron製デスクトップアプリケーション。",
+      "link": "https://syonx.hatenablog.com/entry/2019/05/19/153456"
+    },
+    {
       "id": "01",
       "title": "Chase",
       "desc": "「あとで読む」サービス『Pocket』の積ん読消化を加速するWebアプリ。",
